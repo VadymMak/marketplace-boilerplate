@@ -1,0 +1,45 @@
+/* ============================================
+   THEMES — dark-first
+   ============================================ */
+
+[data-theme="dark"] {
+  --bg-primary: #0c0c0e;
+  --bg-secondary: #141416;
+  --bg-card: #1a1a1e;
+  --bg-hover: rgba(255, 255, 255, 0.06);
+
+  --text-primary: #f0ebe1;
+  --text-secondary: #a0998e;
+
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-subtle: rgba(59, 130, 246, 0.12);
+
+  --border: rgba(255, 255, 255, 0.1);
+  --divider: rgba(255, 255, 255, 0.08);
+
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --error: #ef4444;
+}
+
+[data-theme="light"] {
+  --bg-primary: #f5f0e8;
+  --bg-secondary: #ede8df;
+  --bg-card: #ffffff;
+  --bg-hover: rgba(0, 0, 0, 0.04);
+
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+
+  --accent: #1d4ed8;
+  --accent-hover: #1e40af;
+  --accent-subtle: rgba(29, 78, 216, 0.1);
+
+  --border: rgba(0, 0, 0, 0.1);
+  --divider: rgba(0, 0, 0, 0.08);
+
+  --success: #16a34a;
+  --warning: #d97706;
+  --error: #dc2626;
+}
