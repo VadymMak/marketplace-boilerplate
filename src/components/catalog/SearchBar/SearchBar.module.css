@@ -1,50 +1,63 @@
-'use client'
+.wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
+}
 
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useState, useEffect } from 'react'
-import styles from './SearchBar.module.css'
+.icon {
+  position: absolute;
+  left: var(--space-sm);
+  color: var(--text-secondary);
+  pointer-events: none;
+}
 
-export function SearchBar() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const [value, setValue] = useState(searchParams.get('search') || '')
+.input {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  padding-left: 40px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-full);
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
 
-  // Debounce — wait 400ms after user stops typing
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const params = new URLSearchParams(searchParams.toString())
-      if (value) {
-        params.set('search', value)
-      } else {
-        params.delete('search')
-      }
-      params.delete('page')
-      router.push(`/products?${params.toString()}`)
-    }, 400)
+.input:focus {
+  border-color: var(--accent);
+}
+.input::placeholder {
+  color: var(--text-secondary);
+}
 
-    return () => clearTimeout(timer)
-  }, [value, router, searchParams])
+/* Hide default browser clear button */
+.input::-webkit-search-cancel-button {
+  display: none;
+}
 
-  return (
-    <div className={styles.wrap}>
-      <svg className={styles.icon} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <circle cx="11" cy="11" r="8"/>
-        <path d="M21 21l-4.35-4.35"/>
-      </svg>
-      <input
-        type="search"
-        placeholder="Search products..."
-        className={styles.input}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-      {value && (
-        <button className={styles.clear} onClick={() => setValue('')} aria-label="Clear search">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M18 6L6 18M6 6l12 12"/>
-          </svg>
-        </button>
-      )}
-    </div>
-  )
+.clear {
+  position: absolute;
+  right: var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--bg-hover);
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.clear:hover {
+  background: var(--border);
+  color: var(--text-primary);
 }
