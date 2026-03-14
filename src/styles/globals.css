@@ -6,6 +6,7 @@
 @import "./themes.css";
 @import "./typography.css";
 @import "./animations.css";
+@import "./auth.css";
 
 /* Reset */
 *,
