@@ -1,11 +1,11 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("🌱 Seeding database...");
+  console.log("🌱 Seeding...");
 
-  // Categories
   const categories = await Promise.all([
     prisma.category.upsert({
       where: { slug: "electronics" },
@@ -28,51 +28,49 @@ async function main() {
       create: { name: "Books", slug: "books" },
     }),
   ]);
+  console.log(`✅ ${categories.length} categories`);
 
-  console.log(`✅ Created ${categories.length} categories`);
+  const hashed = await bcrypt.hash("password123", 12);
 
-  // Test users
   const buyer = await prisma.user.upsert({
     where: { email: "buyer@test.com" },
-    update: {},
+    update: { password: hashed },
     create: {
       name: "Test Buyer",
       email: "buyer@test.com",
-      password: "password123",
+      password: hashed,
       role: "BUYER",
     },
   });
 
   const vendor = await prisma.user.upsert({
     where: { email: "vendor@test.com" },
-    update: {},
+    update: { password: hashed },
     create: {
       name: "Test Vendor",
       email: "vendor@test.com",
-      password: "password123",
+      password: hashed,
       role: "VENDOR",
     },
   });
 
-  const admin = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: "admin@test.com" },
-    update: {},
+    update: { password: hashed },
     create: {
       name: "Test Admin",
       email: "admin@test.com",
-      password: "password123",
+      password: hashed,
       role: "ADMIN",
     },
   });
 
-  console.log("✅ Created test users:");
+  console.log("✅ 3 users (passwords hashed):");
   console.log("   buyer@test.com  / password123");
   console.log("   vendor@test.com / password123");
   console.log("   admin@test.com  / password123");
 
-  // Sample products from vendor
-  const electronics = categories.find((c) => c.slug === "electronics")!;
-
+  const electronics = categories[0];
   await prisma.product.upsert({
     where: { slug: "wireless-headphones-pro" },
     update: {},
@@ -104,15 +102,13 @@ async function main() {
     },
   });
 
-  console.log("✅ Created sample products");
+  console.log("✅ 2 products");
   console.log("🎉 Seed complete!");
 }
 
 main()
+  .then(() => process.exit(0))
   .catch((e) => {
-    console.error(e);
+    console.error("❌ Error:", e);
     process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
   });

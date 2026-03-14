@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 import { prisma } from "./db";
 import { redirect } from "next/navigation";
 
@@ -24,9 +25,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!user || !user.password) return null;
 
-        // Simple password check — in production use bcrypt
-        // We'll add bcrypt in Phase 9 (Polish)
-        const isValid = user.password === credentials.password;
+        const isValid = await bcrypt.compare(
+          credentials.password as string,
+          user.password,
+        );
         if (!isValid) return null;
 
         return user;
@@ -56,10 +58,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     error: "/auth/login",
   },
 });
-
-// ============================================
-// ROLE GUARD HELPERS
-// ============================================
 
 export async function requireAuth() {
   const session = await auth();
