@@ -5,9 +5,31 @@ import { Button } from "@/components/ui";
 import styles from "./home.module.css";
 import type { Metadata } from "next";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || "Marketplace";
+
 export const metadata: Metadata = {
   title: "Home",
-  description: "Discover unique products from independent vendors.",
+  description:
+    "Discover unique handmade, vintage and creative products from independent vendors.",
+  openGraph: {
+    title: SITE_NAME,
+    description: "Discover unique products from independent vendors.",
+    url: BASE_URL,
+    type: "website",
+  },
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_NAME,
+  url: BASE_URL,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${BASE_URL}/products?search={search_term_string}`,
+    "query-input": "required name=search_term_string",
+  },
 };
 
 export default async function HomePage() {
@@ -25,61 +47,68 @@ export default async function HomePage() {
   ]);
 
   return (
-    <div className={styles.page}>
-      {/* Hero */}
-      <section className={styles.hero}>
-        <div className={styles.heroInner}>
-          <h1 className={styles.heroTitle}>
-            Discover unique products
-            <br />
-            from independent vendors
-          </h1>
-          <p className={styles.heroSub}>
-            Browse thousands of handmade, vintage and creative items.
-          </p>
-          <div className={styles.heroActions}>
-            <Link href="/products">
-              <Button size="lg">Browse Products</Button>
-            </Link>
-            <Link href="/auth/register">
-              <Button variant="secondary" size="lg">
-                Start Selling
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
 
-      {/* Categories */}
-      <section className={styles.section}>
-        <div className={styles.container}>
-          <h2 className={styles.sectionTitle}>Shop by Category</h2>
-          <div className={styles.categories}>
-            {categories.map((cat) => (
-              <Link
-                key={cat.id}
-                href={`/products?category=${cat.slug}`}
-                className={styles.catCard}
-              >
-                {cat.name}
+      <div className={styles.page}>
+        {/* Hero */}
+        <section className={styles.hero}>
+          <div className={styles.heroInner}>
+            <h1 className={styles.heroTitle}>
+              Discover unique products
+              <br />
+              from independent vendors
+            </h1>
+            <p className={styles.heroSub}>
+              Browse thousands of handmade, vintage and creative items.
+            </p>
+            <div className={styles.heroActions}>
+              <Link href="/products">
+                <Button size="lg">Browse Products</Button>
               </Link>
-            ))}
+              <Link href="/auth/register">
+                <Button variant="secondary" size="lg">
+                  Start Selling
+                </Button>
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Featured Products */}
-      <section className={styles.section}>
-        <div className={styles.container}>
-          <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Featured Products</h2>
-            <Link href="/products" className={styles.seeAll}>
-              See all →
-            </Link>
+        {/* Categories */}
+        <section className={styles.section}>
+          <div className={styles.container}>
+            <h2 className={styles.sectionTitle}>Shop by Category</h2>
+            <div className={styles.categories}>
+              {categories.map((cat) => (
+                <Link
+                  key={cat.id}
+                  href={`/products?category=${cat.slug}`}
+                  className={styles.catCard}
+                >
+                  {cat.name}
+                </Link>
+              ))}
+            </div>
           </div>
-          <ProductGrid products={featuredProducts} />
-        </div>
-      </section>
-    </div>
+        </section>
+
+        {/* Featured Products */}
+        <section className={styles.section}>
+          <div className={styles.container}>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>Featured Products</h2>
+              <Link href="/products" className={styles.seeAll}>
+                See all →
+              </Link>
+            </div>
+            <ProductGrid products={featuredProducts} />
+          </div>
+        </section>
+      </div>
+    </>
   );
 }
