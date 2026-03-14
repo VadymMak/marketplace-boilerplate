@@ -1,0 +1,20 @@
+.roleSelect {
+  padding: 4px 8px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.roleSelect:focus {
+  border-color: var(--accent);
+}
+.roleSelect:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
