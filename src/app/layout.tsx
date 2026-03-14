@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Providers from "@/components/Providers";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import "@/styles/globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-body",
-  display: "swap", // CRITICAL — prevents font-blocking penalty
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -32,7 +34,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.variable}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          <main style={{ minHeight: "calc(100vh - var(--header-height))" }}>
+            {children}
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
