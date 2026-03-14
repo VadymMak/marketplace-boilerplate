@@ -9,6 +9,7 @@ type ButtonProps = {
   onClick?: () => void;
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 };
 
 export function Button({
@@ -20,12 +21,14 @@ export function Button({
   onClick,
   children,
   className = "",
+  style,
 }: ButtonProps) {
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
+      style={style}
       className={`${styles.btn} ${styles[variant]} ${styles[size]} ${className}`}
     >
       {loading ? <span className={styles.spinner} aria-hidden="true" /> : null}

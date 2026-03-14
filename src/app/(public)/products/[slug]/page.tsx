@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { prisma } from "@/lib/db";
 import { Badge, statusVariant } from "@/components/ui";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import { formatPrice } from "@/lib/utils";
 import type { Metadata } from "next";
 import styles from "./product.module.css";
@@ -19,7 +20,6 @@ export async function generateMetadata({
     include: { vendor: { select: { name: true } } },
   });
   if (!product) return { title: "Product not found" };
-
   return {
     title: product.title,
     description: product.description.slice(0, 160),
@@ -64,11 +64,9 @@ export default async function ProductPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
-
       <div className={styles.page}>
         <div className={styles.container}>
           <div className={styles.grid}>
-            {/* Image */}
             <div className={styles.imageWrap}>
               {product.images[0] ? (
                 <Image
@@ -97,7 +95,6 @@ export default async function ProductPage({ params }: PageProps) {
               )}
             </div>
 
-            {/* Info */}
             <div className={styles.info}>
               <div className={styles.meta}>
                 <span className={styles.category}>{product.category.name}</span>
@@ -105,16 +102,12 @@ export default async function ProductPage({ params }: PageProps) {
                   {product.status}
                 </Badge>
               </div>
-
               <h1 className={styles.title}>{product.title}</h1>
               <p className={styles.price}>{formatPrice(product.price)}</p>
               <p className={styles.vendor}>by {product.vendor.name}</p>
-
               <hr className={styles.divider} />
-
               <p className={styles.description}>{product.description}</p>
-
-              <button className={styles.addToCart}>Add to Cart</button>
+              <AddToCartButton product={product} />
             </div>
           </div>
         </div>
