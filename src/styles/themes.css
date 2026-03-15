@@ -21,25 +21,29 @@
   --success: #22c55e;
   --warning: #f59e0b;
   --error: #ef4444;
+
+  --card-shadow: none;
 }
 
 [data-theme="light"] {
-  --bg-primary: #f5f0e8;
-  --bg-secondary: #ede8df;
+  --bg-primary: #f0f0f0;
+  --bg-secondary: #e8e8e8;
   --bg-card: #ffffff;
   --bg-hover: rgba(0, 0, 0, 0.04);
 
-  --text-primary: #1a1a1a;
-  --text-secondary: #555555;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
 
   --accent: #1d4ed8;
   --accent-hover: #1e40af;
-  --accent-subtle: rgba(29, 78, 216, 0.1);
+  --accent-subtle: rgba(29, 78, 216, 0.08);
 
-  --border: rgba(0, 0, 0, 0.1);
-  --divider: rgba(0, 0, 0, 0.08);
+  --border: rgba(0, 0, 0, 0.08);
+  --divider: rgba(0, 0, 0, 0.06);
 
   --success: #16a34a;
   --warning: #d97706;
   --error: #dc2626;
+
+  --card-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }

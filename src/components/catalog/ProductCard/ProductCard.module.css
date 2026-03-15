@@ -6,18 +6,17 @@
   border-radius: var(--border-radius-lg);
   overflow: hidden;
   text-decoration: none;
+  box-shadow: var(--card-shadow);
   transition:
     border-color var(--transition-fast),
     transform var(--transition-fast),
     box-shadow var(--transition-fast);
-  animation: fadeUp 0.5s ease forwards;
-  animation-delay: calc(var(--i, 0) * 0.06s);
 }
 
 .card:hover {
   border-color: var(--accent);
   transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .imageWrap {
@@ -58,6 +57,7 @@
   flex-direction: column;
   gap: var(--space-xs);
   flex: 1;
+  background: var(--bg-card);
 }
 
 .category {
